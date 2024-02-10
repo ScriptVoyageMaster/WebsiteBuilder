@@ -1,0 +1,87 @@
+/* panel.css */
+.element-category .category-title {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.element-category .category-content {
+  display: none; /* Згортаємо вміст категорій за замовчуванням */
+}
+
+/* .draggable-element {
+  cursor: grab;
+  margin: 5px 0;
+} */
+
+/* Приклад іконок, використовуйте власні класи або шрифт іконок */
+.icon-heading:before,
+.icon-paragraph:before,
+.icon-image:before,
+.icon-video:before {
+  font-family: "Icons";
+  margin-right: 8px;
+  /* Додайте відповідні символи або шляхи до іконок */
+}
+.category-icon {
+  margin-right: 15px;
+  cursor: pointer;
+}
+
+.element-panel ul {
+  list-style: none; /* Видалення стандартних маркерів списку */
+  padding: 0;
+}
+
+.element-panel li {
+  background-color: #f0f0f0; /* Колір фону кнопки */
+  margin: 5px 0; /* Відступи між кнопками */
+  padding: 10px; /* Внутрішні відступи кнопки */
+  border-radius: 5px; /* Закруглені кути кнопки */
+  cursor: pointer; /* Курсор у вигляді руки для підкреслення інтерактивності */
+  display: flex; /* Для вирівнювання іконки і тексту */
+  align-items: center; /* Вертикальне вирівнювання іконки і тексту */
+}
+
+.element-panel li:hover {
+  background-color: #e0e0e0; /* Колір фону кнопки при наведенні */
+}
+
+.icon {
+  margin-right: 10px; /* Відступ між іконкою і текстом */
+  width: 24px; /* Ширина іконки */
+  height: 24px; /* Висота іконки */
+}
+/* .draggable-element {
+  cursor: grab;
+  margin: 5px 0;
+} */
+.tab-headers {
+  display: flex;
+  cursor: pointer;
+  background-color: #f0f0f0;
+}
+
+.tab-header {
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+
+.tab-header.active {
+  background-color: #ddd;
+}
+
+.tab-content {
+  display: none;
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+.tab-content.active {
+  display: block;
+}
+.workspace .active {
+  border: 2px solid #4caf50; /* Зелена рамка для активного елемента */
+}
+.tab-content li.active {
+  border: 2px solid #4caf50; /* Зелена рамка для активного елемента */
+}
