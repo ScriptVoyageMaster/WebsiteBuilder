@@ -21,6 +21,7 @@
       <?php include 'components/property-panel.php'; ?>
     </div>
   </div>
-  <script src="js/script.js"></script>
+  <script type="module" src="js/app.js"></script>
+  <!-- <script src="js/script.js"></script> -->
 </body>
 </html>
