@@ -1,4 +1,4 @@
-// Базовий клас для всіх елементів
+// Базовий клас для всіх елементів Element.js
 class Element {
     constructor(type, content = '') {
         this.type = type; // Тип елемента, наприклад 'div', 'p'
@@ -11,7 +11,13 @@ class Element {
     addChild(childElement) {
         this.children.push(childElement);
     }
-
+// Метод для видалення дочірнього елемента
+removeChild(childElement) {
+    const index = this.children.indexOf(childElement);
+    if (index !== -1) {
+        this.children.splice(index, 1);
+    }
+}
     // Метод для встановлення CSS стилів
     setStyle(key, value) {
         this.styles[key] = value;

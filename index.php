@@ -1,3 +1,4 @@
+<!-- index.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,7 +22,7 @@
       <?php include 'components/property-panel.php'; ?>
     </div>
   </div>
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="./js/app.js"></script>
   <!-- <script src="js/script.js"></script> -->
 </body>
 </html>

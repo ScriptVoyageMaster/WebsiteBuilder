@@ -4,7 +4,7 @@
 
     <!-- Текстовий контент -->
     <div class="element-category">
-        <div class="category-title"><span class="category-icon">+</span> Текстовий контент</div>
+        <div class="category-title"><span class="category-icon">+</span> Текстовий контент1</div>
         <ul class="category-content">
             <li class="draggable-element" draggable="true" data-type="heading"> <svg class="icon"><use href="assets/icons/element-icons.svg#icon-heading"></use></svg> Заголовки (H1-H6)</li>
             <li class="draggable-element" draggable="true" data-type="paragraph"><svg class="icon"><use href="assets/icons/element-icons.svg#icon-paragraph"></use></svg>Абзаци</li>

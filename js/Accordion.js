@@ -1,3 +1,4 @@
+// Accordion.js
 class Accordion {
     constructor(selector) {
         this.accordion = document.querySelector(selector); // Знайти акордеон у DOM за селектором

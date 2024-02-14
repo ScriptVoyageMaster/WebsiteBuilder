@@ -1,3 +1,4 @@
+// TextElement.js
 import Element from './Element.js'; // Імпорт базового класу Element
 
 // Клас для текстових елементів, розширює базовий клас Element
