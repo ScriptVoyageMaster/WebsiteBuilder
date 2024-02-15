@@ -12,6 +12,6 @@
   border-radius: 5px;
   margin: 10px 0;
 }
-.drop-target {
+#workspace .drop-target {
   background-color: #ccc;
 }

@@ -31,36 +31,34 @@ class Workspace {
 
     // Обробник події drop
     // Обробник події drop
-handleDrop(event) {
-    // Запобігання стандартній поведінці скидання
-    event.preventDefault();
-
-    // Отримання типу елемента, що перетягується
-    const type = event.dataTransfer.getData('type');
-
-    // Створення нового елемента на основі типу
-    const newItem = this.createElement(type);
-
-    // Отримання елемента, над яким відбувається скидання
-    const dropTarget = document.elementFromPoint(event.clientX, event.clientY);
-    //console.log(dropTarget);
-    // Перевірка, чи є dropTarget дочірнім елементом робочої області
-    if (dropTarget && this.element.contains(dropTarget)) {
-        // Вставка нового елемента в кінець елемента робочої області
-        this.element.appendChild(newItem);
-    } else {
-        // Вставка нового елемента перед або після dropTarget в залежності від положення курсора
-        const rect = this.element.getBoundingClientRect();
-        const offsetY = event.clientY - rect.top;
-        const insertBefore = offsetY < dropTarget.offsetHeight / 2;
-
-        if (insertBefore) {
-            this.element.insertBefore(newItem, dropTarget);
-        } else {
-            this.element.insertBefore(newItem, dropTarget.nextSibling);
+    handleDrop(event) {
+        // Запобігання стандартній поведінці скидання
+        event.preventDefault();
+        
+        // Отримання типу елемента, що перетягується
+        const type = event.dataTransfer.getData('type');
+    
+        // Створення нового елемента на основі типу
+        const newItem = this.createElement(type);
+    
+        // Отримання елемента, над яким відбувається скидання
+        const dropTarget = document.elementFromPoint(event.clientX, event.clientY);
+    
+        // Перевірка, чи є dropTarget дочірнім елементом робочої області
+        if (dropTarget && this.element.contains(dropTarget)) {
+            // Вставка нового елемента перед або після dropTarget в залежності від положення курсора
+            const rect = this.element.getBoundingClientRect();
+            const offsetY = event.clientY - rect.top;
+            const insertBefore = offsetY < dropTarget.offsetHeight / 2;
+    
+            if (insertBefore) {
+                this.element.insertBefore(newItem, dropTarget);
+            } else {
+                this.element.insertBefore(newItem, dropTarget.nextSibling);
+            }
         }
     }
-}
+    
 
     // Метод для створення нового елемента в робочій області
     createElement(type) {
