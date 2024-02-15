@@ -1,87 +1,114 @@
-// Клас для робочої області Workspace.js
-class Workspace {
+export default class Workspace {
     constructor(element) {
-       // console.log("фіпфівп");
-        this.element = element; // DOM елемент робочої області
-        this.element.addEventListener('dragover', this.handleDragOver.bind(this)); // Додавання обробника події dragover
-        this.element.addEventListener('drop', this.handleDrop.bind(this)); // Додавання обробника події drop
+      this.element = element;
+      this.element.addEventListener('dragover', this.handleDragOver.bind(this));
+      this.element.addEventListener('drop', this.handleDrop.bind(this));
+      this.element.addEventListener('dragleave', this.clearPreview.bind(this));
+      this.previewTimeout = null;
     }
+  
+   
 
-    // Обробник події dragover
     handleDragOver(event) {
-         // Запобігання стандартній поведінці перетягування
-    event.preventDefault();
+  event.preventDefault();
+  event.stopPropagation(); // Зупиняємо подальшу пропагацію події
+  event.dataTransfer.dropEffect = 'move';
 
-    // Визначення цільового елемента на основі позиції курсора
-    const newDropTarget = document.elementFromPoint(event.clientX, event.clientY);
-    
-    // Перевірка, чи є поточний dropTarget, і видалення класу drop-target, якщо він існує
-    if (this.dropTarget) {
-        this.dropTarget.classList.remove('drop-target');
-    }
-    
-    // Встановлення класу drop-target для нового dropTarget, якщо він існує
-    if (newDropTarget) {
-        newDropTarget.classList.add('drop-target');
-    }
+  clearTimeout(this.previewTimeout);
+  this.previewTimeout = setTimeout(() => this.showPreview(event), 2000);
 
-    // Зберігання нового dropTarget для подальшого використання
-    this.dropTarget = newDropTarget;
-      }
-
-    // Обробник події drop
-    // Обробник події drop
-handleDrop(event) {
-    // Запобігання стандартній поведінці скидання
-    event.preventDefault();
-
-    // Отримання типу елемента, що перетягується
-    const type = event.dataTransfer.getData('type');
-
-    // Створення нового елемента на основі типу
-    const newItem = this.createElement(type);
-
-    // Отримання елемента, над яким відбувається скидання
-    const dropTarget = document.elementFromPoint(event.clientX, event.clientY);
-    //console.log(dropTarget);
-    // Перевірка, чи є dropTarget дочірнім елементом робочої області
-    if (dropTarget && this.element.contains(dropTarget)) {
-        // Вставка нового елемента в кінець елемента робочої області
-        this.element.appendChild(newItem);
-    } else {
-        // Вставка нового елемента перед або після dropTarget в залежності від положення курсора
-        const rect = this.element.getBoundingClientRect();
-        const offsetY = event.clientY - rect.top;
-        const insertBefore = offsetY < dropTarget.offsetHeight / 2;
-
-        if (insertBefore) {
-            this.element.insertBefore(newItem, dropTarget);
-        } else {
-            this.element.insertBefore(newItem, dropTarget.nextSibling);
-        }
-    }
+  // Видаляємо попередній елемент попереднього перегляду, якщо він існує
+  if (this.previewElement) {
+    this.clearPreview();
+  }
 }
 
-    // Метод для створення нового елемента в робочій області
-    createElement(type) {
-        let newItem = null;
+  
+    handleDrop(event) {
+      event.preventDefault();
+  
+      // Очищуємо попередній перегляд
+      clearTimeout(this.previewTimeout);
+      this.clearPreview();
+  
+      const type = event.dataTransfer.getData('type');
+      const newItem = this.createElement(type);
+      this.insertElement(event, newItem);
+    }
+  
+    showPreview(event) {
         
-        // Визначення, як створити новий елемент на основі його типу
-        switch (type) {
-            case 'paragraph':
-                newItem = document.createElement('p');
-                newItem.textContent = 'Новий абзац';
-                break;
-            case 'heading':
-                newItem = document.createElement('h1');
-                newItem.textContent = 'Новий заголовок';
-                break;
-            // Додайте інші випадки для різних типів елементів
-        }
-       // console.log(newItem);
-        // Повертаємо новий елемент для додавання в робочу область
-        return newItem;
+      const type = event.dataTransfer.getData('type');
+      this.previewElement = this.createElement(type, true); // Створюємо елемент попереднього перегляду
+  
+      this.insertElement(event, this.previewElement);
     }
-    
-}
-export default Workspace;
+  
+    clearPreview() {
+      if (this.previewElement && this.element.contains(this.previewElement)) {
+        this.element.removeChild(this.previewElement);
+      }
+      this.previewElement = null;
+    }
+  
+    insertElement(event, element, isPreview = false) {
+      const cursorY = event.clientY;
+      const children = Array.from(this.element.children);
+      let insertBeforeElement = null;
+  
+      for (let i = 0; i < children.length; i++) {
+        const current = children[i];
+        const next = children[i + 1];
+        const currentRect = current.getBoundingClientRect();
+        let middlePoint = currentRect.bottom;
+  
+        if (next) {
+          const nextRect = next.getBoundingClientRect();
+          middlePoint = (currentRect.bottom + nextRect.top) / 2;
+        }
+  
+        if (cursorY < middlePoint) {
+          insertBeforeElement = current;
+          break;
+        }
+      }
+  
+      if (insertBeforeElement) {
+        this.element.insertBefore(element, insertBeforeElement);
+      } else {
+        this.element.appendChild(element);
+      }
+  
+      // Якщо це попередній перегляд, не додаємо його до DOM постійно
+      if (isPreview) {
+        setTimeout(() => this.clearPreview(), 2000);
+      }
+    }
+  
+    createElement(type, isPreview = false) {
+        let element;
+      
+        switch (type) {
+          case 'paragraph':
+            element = document.createElement('p');
+            element.textContent = isPreview ? 'Попередній абзац' : 'Новий абзац';
+            break;
+          case 'heading':
+            element = document.createElement('h1');
+            element.textContent = isPreview ? 'Попередній заголовок' : 'Новий заголовок';
+            break;
+          // Додайте додаткові типи елементів за потребою
+          default:
+            console.error('Невідомий тип елемента:', type);
+            return null; // Повертаємо null, щоб запобігти подальшим помилкам
+        }
+      
+        if (isPreview && element) { // Переконуємося, що елемент був створений, перш ніж змінювати стилі
+          element.style.backgroundColor = 'lightgreen';
+          element.style.opacity = '0.5';
+        }
+      
+        return element;
+      }
+  }
+  

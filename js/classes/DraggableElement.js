@@ -4,7 +4,7 @@ class DraggableElement {
         this.element = element; // DOM елемент, який можна перетягувати
         this.element.setAttribute('draggable', true); // Встановлення елементу атрибуту draggable
         this.element.addEventListener('dragstart', this.handleDragStart.bind(this)); // Додавання обробника події dragstart
-        console.log("Подія");
+        // console.log("Подія");
     }
 
     // Обробник події dragstart

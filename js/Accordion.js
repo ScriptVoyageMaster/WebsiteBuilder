@@ -13,19 +13,26 @@ class Accordion {
     }
 
     // Метод для згортання/розгортання категорії
-    toggleCategory(title) {
-        const content = title.nextElementSibling;
-        const icon = title.querySelector('.category-icon');
-        const currentDisplay = window.getComputedStyle(content).display;
-    
-        if (currentDisplay === 'none') {
-            content.style.display = 'block';
-            icon.textContent = '-';
-        } else {
-            content.style.display = 'none';
-            icon.textContent = '+';
-        }
-     }
+toggleCategory(title) {
+    // Отримання наступного елемента після заголовка, який є контентом категорії
+    const content = title.nextElementSibling;
+    // Отримання значка категорії
+    const icon = title.querySelector('.category-icon');
+    // Отримання поточного значення властивості display для контенту
+    const currentDisplay = window.getComputedStyle(content).display;
+
+    // Перевірка поточного значення властивості display
+    if (currentDisplay === 'none') {
+        // Якщо контент прихований, відображаємо його та змінюємо значок на мінус
+        content.style.display = 'block';
+        icon.textContent = '-';
+    } else {
+        // Якщо контент відображений, приховуємо його та змінюємо значок на плюс
+        content.style.display = 'none';
+        icon.textContent = '+';
+    }
+}
+
 }
 
 // Експортувати клас, якщо ви використовуєте модулі
