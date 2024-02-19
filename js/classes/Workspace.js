@@ -15,14 +15,17 @@ export default class Workspace {
     event.stopPropagation(); // Зупиняє розповсюдження події вище по DOM-дереву
     event.dataTransfer.dropEffect = 'move'; // Вказує ефект, який буде використано при відпусканні елемента
 
-    clearTimeout(this.previewTimeout); // Скидає таймер, якщо він був раніше встановлений
-    // Встановлює таймер для показу попереднього перегляду через 2 секунди
-    this.previewTimeout = setTimeout(() => this.showPreview(event), 2000);
-
     // Перевіряє, чи існує елемент попереднього перегляду, і видаляє його, якщо так
     if (this.previewElement) {
       this.clearPreview();
     }
+    this.showPreview(event);
+    //console.log(event);
+    // clearTimeout(this.previewTimeout); // Скидає таймер, якщо він був раніше встановлений
+    // // Встановлює таймер для показу попереднього перегляду через 2 секунди
+    // this.previewTimeout = setTimeout(() => this.showPreview(event), 2000);
+
+    
   }
 
   // Обробник події drop
@@ -39,8 +42,9 @@ export default class Workspace {
 
   // Показує попередній перегляд елемента
   showPreview(event) {
-    console.log('showPreview called');
+    
     const type = event.dataTransfer.getData('type'); // Отримує тип елемента
+    console.log(type);
     // Створює елемент попереднього перегляду з вказаним типом
     this.previewElement = this.createElement(type, true);
 
